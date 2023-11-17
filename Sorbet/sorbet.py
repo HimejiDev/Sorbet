@@ -1,6 +1,6 @@
 from color import *
 
-DEFAULT_PREFIX = "🍨 | "
+DEFAULT_PREFIX = "🍨"
 
 # 🍨 | [object name]: [object Object]
 # 🍨 | [file].py:[line] > [function] | [time] ; [date]
@@ -32,12 +32,12 @@ class Sorbet:
 
         :param args: The arguments to pass to the class.
 
-        :type args: Any
+        :type args: Tuple[Any]
 
         :return: Any | None
         """
         print(
-            f"{color.bright_black(self.prefix)}Hi! I'm Sorbet, a logger made by Himeji."
+            f"{color.white(self.prefix)} {color.bright_black('|')} Hi! I'm Sorbet, a logger made by Himeji."
         )
 
         if not args:  # sb()
