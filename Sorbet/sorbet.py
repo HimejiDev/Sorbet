@@ -97,7 +97,18 @@ class Sorbet:
             caller_info = self._get_caller_info(callFrame)
             return f"{self.prefix} | {color.cyan(caller_info[2])}:{color.cyan(str(caller_info[1]))} > {color.cyan(caller_info[0])}{'()' if caller_info[0] != '<module>' else ''} | {color.cyan(get_time())} ; {color.cyan(get_date())}"
         else:
-            return f"{self.prefix} | {args}"
+            return f"{self.prefix} | {self._format_args(args)}"
+
+    def _format_args(self, *args):
+        """Formats the arguments.
+
+        :param args: The arguments to format.
+
+        :type args: Tuple[Any]
+
+        :return: str
+        """
+        return args
 
 
 sb = Sorbet()
