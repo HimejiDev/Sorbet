@@ -1,22 +1,27 @@
 from setuptools import setup, find_packages
 
+VERSION = "0.0.1"
+DESCRIPTION = "A better printing experience in the console."
+LONG_DESCRIPTION = "Sorbet is a Python package designed to enhance the printing experience in the console."
+
+# Setting up
 setup(
-    name='Sorbet',
-    version='0.1.0',
+    name="sorbet",
+    version=VERSION,
+    author="Himeji",
+    author_email="<himejidev@proton.me>",
+    description=DESCRIPTION,
+    long_description_content_type="text/markdown",
+    long_description=LONG_DESCRIPTION,
     packages=find_packages(),
-    author='Himeji',
-    author_email='himeji@proton.me',
-    description='Improved logging for Python',
-    long_description=open('README.md').read(),
-    long_description_content_type='text/markdown',
-    url='https://github.com/HimejiDev/Sorbet',
-    license='MIT',
+    install_requires=[],
+    keywords=["python", "print", "icecream", "log", "debug", "console", "sorbet"],
     classifiers=[
-        'License :: OSI Approved :: MIT',
-        'Programming Language :: Python :: 3',
-        # Add more classifiers as needed
-    ],
-    install_requires=[
-        # List dependencies here
+        "Development Status :: 1 - Planning",
+        "Intended Audience :: Developers",
+        "Programming Language :: Python :: 3",
+        "Operating System :: Unix",
+        "Operating System :: MacOS :: MacOS X",
+        "Operating System :: Microsoft :: Windows",
     ],
 )
