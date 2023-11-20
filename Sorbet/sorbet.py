@@ -63,5 +63,19 @@ class Sorbet:
             returns = args
         return returns
 
+    def _get_caller_info(self, caller_frame):
+        """Gets the caller info.
+
+        :param caller_frame: The caller frame.
+
+        :type caller_frame: inspect.FrameInfo
+
+        :return: Tuple[str, int, str]
+        """
+        caller_function = caller_frame.function
+        caller_line = caller_frame.lineno
+        caller_file = caller_frame.filename
+        return caller_function, caller_line, caller_file
+
 
 sb = Sorbet()
