@@ -1,7 +1,7 @@
 from .sorbet import *
 
 # variables
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 __author__ = "Himeji"
 __lsbense__ = "MIT"
 __title__ = "sorbet"

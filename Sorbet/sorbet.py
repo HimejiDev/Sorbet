@@ -1,5 +1,5 @@
-from color import *
-from format_strings import *
+from .color import *
+from .format_strings import *
 import inspect
 import executing
 

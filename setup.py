@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = "0.0.2"
+VERSION = "0.0.3"
 DESCRIPTION = "A better printing experience in the console."
 LONG_DESCRIPTION = "Sorbet is a Python package designed to enhance the printing experience in the console."
 
