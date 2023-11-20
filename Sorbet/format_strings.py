@@ -14,4 +14,4 @@ def get_time():
 
     :return: str
     """
-    return datetime.datetime.now().strftime("%H:%M:%S")
+    return datetime.datetime.now().strftime("%H:%M:%S:%f")
