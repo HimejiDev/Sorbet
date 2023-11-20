@@ -1,9 +1,24 @@
 from color import *
+import inspect
+import executing
 
 DEFAULT_PREFIX = "🍨"
 
-# 🍨 | [object name]: [object Object]
-# 🍨 | [file].py:[line] > [function] | [time] ; [date]
+
+def get_arg_strings(call_frame):
+    callNode = Source.executing(call_frame).node
+    source = Source.for_frame(call_frame)
+    return [source.get_text_with_indentation(arg) for arg in callNode.args]
+
+
+class Source(executing.Source):
+    def get_text_with_indentation(self, node):
+        result = self.asttokens().get_text(node)
+        if "\n" in result:
+            result = " " * node.first_token.start[1] + result
+            result = result
+        result = result.strip()
+        return result
 
 
 class Sorbet:
