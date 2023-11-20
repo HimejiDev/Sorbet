@@ -19,3 +19,15 @@ def get_time():
 
 def format_dict(dictionary):
     return None
+
+
+def color_string(string):
+    """Colors a string.
+
+    :param string: The string to color.
+
+    :type string: str
+
+    :return: str
+    """
+    return string
