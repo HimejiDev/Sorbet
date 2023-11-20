@@ -95,9 +95,9 @@ class Sorbet:
         """
         if not args:
             caller_info = self._get_caller_info(callFrame)
-            print(
-                f"{self.prefix} | {caller_info[2]}:{caller_info[1]} > {caller_info[0]}() | {get_time()} ; {get_date()}"
-            )
+            return f"{self.prefix} | {color.cyan(caller_info[2])}:{color.cyan(str(caller_info[1]))} > {color.cyan(caller_info[0])}() | {color.cyan(get_time())} ; {color.cyan(get_date())}"
+        else:
+            return f"{self.prefix} | {args}"
 
 
 sb = Sorbet()
