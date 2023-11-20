@@ -98,7 +98,6 @@ class Sorbet:
             return f"{self.prefix} | {color.cyan(caller_info[2])}:{color.cyan(str(caller_info[1]))} > {color.cyan(caller_info[0])}{'()' if caller_info[0] != '<module>' else ''} | {color.cyan(get_time())} ; {color.cyan(get_date())}"
         else:
             argPairs = list(zip(get_arg_strings(callFrame), args))
-            # print(argPairs)
             return f"{self.prefix} | {self._format_args(argPairs)}"
 
     def _format_args(self, argPairs):
@@ -124,8 +123,9 @@ class Sorbet:
                     f"{color.cyan(f'<{type(arg).__name__}>')}{':' + color.cyan(argName) if str(arg) != argName else ''} - {'[' if type(arg) == list else '('}{self._format_lists(arg)}{']' if type(arg) == list else ')'}"
                 )
             elif type(arg) == dict:
+                check_arg = str(arg).replace("'", "")
                 _args.append(
-                    f"{color.cyan(f'<{type(arg).__name__}>')}{':' + color.cyan(argName) if str(arg) != argName else ''} - "
+                    f"{color.cyan(f'<{type(arg).__name__}>')}{':' + color.cyan(argName) if check_arg != argName else ''} - "
                     + self._format_dict(arg)
                 )
             elif type(arg) in [bool]:
