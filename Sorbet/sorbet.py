@@ -80,7 +80,7 @@ class Sorbet:
         function_name = caller_frame.f_code.co_name
         line_number = caller_frame.f_lineno
         file_name = caller_frame.f_code.co_filename
-        return function_name, line_number, file_name.split("\\")[-1]
+        return function_name, line_number, file_name.split("\\")[-1].split("/")[-1]
 
     def _out(self, callFrame, args):
         """Formats the output.
