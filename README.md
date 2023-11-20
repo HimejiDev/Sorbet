@@ -17,14 +17,19 @@ Note: Sorbet is currently under development and does not have any features imple
 
 ## Installation ⚙️
 
-As of now, Sorbet is not available via PyPI. Stay tuned for future updates on installation instructions.
+To install sorbet, just run this command in your terminal:
+
+```shell
+pip install sorbet
+```
 
 ## Usage 🖥️
 
 The usage examples below will demonstrate how Sorbet aims to improve console printing.
 
-```shell
-pip install sorbet
+```py
+sb() # prints the current line info, like file, function and line number
+sb([var]) # prints the given var with better formatting and coloring.
 ```
 
 ## Contributing 🤝
