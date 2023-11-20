@@ -15,19 +15,3 @@ def get_time():
     :return: str
     """
     return datetime.datetime.now().strftime("%H:%M:%S")
-
-
-def format_dict(dictionary):
-    return None
-
-
-def color_string(string):
-    """Colors a string.
-
-    :param string: The string to color.
-
-    :type string: str
-
-    :return: str
-    """
-    return string

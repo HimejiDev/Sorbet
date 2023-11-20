@@ -55,9 +55,9 @@ class Sorbet:
         if self.enabled:
             callFrame = inspect.currentframe().f_back
             try:
-                out = self._out(callFrame, *args)
-            except executing.NoSourceAvailableError as err:
-                out = f"{self.prefix} | {color.red('Error')}: {err.infoMessage}"
+                out = self._out(callFrame, args)
+            except Exception as e:
+                out = f"{self.prefix} | {color.red('Error')}: {e}"
             print(out)
 
         if not args:  # sb()
@@ -82,7 +82,7 @@ class Sorbet:
         file_name = caller_frame.f_code.co_filename
         return function_name, line_number, file_name.split("\\")[-1]
 
-    def _out(self, callFrame, *args):
+    def _out(self, callFrame, args):
         """Formats the output.
 
         :param callFrame: The call frame.
@@ -99,7 +99,7 @@ class Sorbet:
         else:
             return f"{self.prefix} | {self._format_args(args)}"
 
-    def _format_args(self, *args):
+    def _format_args(self, args):
         """Formats the arguments.
 
         :param args: The arguments to format.
@@ -108,7 +108,53 @@ class Sorbet:
 
         :return: str
         """
-        return args
+        _args = []
+        for i in range(len(args)):
+            arg = args[i]
+            if type(arg) in [str, int, float]:
+                _args.append(f"{self._color_type(arg)}")
+            elif type(arg) in [list, tuple]:
+                _args.append(
+                    f"{'[' if type(arg) == list else '('}{self._format_args(arg)}{']' if type(arg) == list else ')'}"
+                )
+            elif type(arg) == dict:
+                _args.append(self._format_dict(arg))
+            elif type(arg) in [bool]:
+                _args.append(color.green(str(arg)) if arg else color.red(str(arg)))
+            else:
+                _args.append(str(arg))
+
+        return ", ".join(_args)
+
+    def _format_dict(self, dict):
+        """Formats the dictionary.
+
+        :param dict: The dictionary to format.
+
+        :type dict: dict
+
+        :return: str
+        """
+        _dict = []
+        for key in dict.keys():
+            _dict.append(
+                f"{self._color_type(str(key))}: {self._color_type(str(dict[key]))}"
+            )
+        return "{" + ", ".join(_dict) + "}"
+
+    def _color_type(self, object):
+        """Colors the type.
+
+        :param object: The object to color.
+
+        :type object: Any
+
+        :return: str
+        """
+        if type(object) == str:
+            return color.cyan("'" + object + "'")
+        else:
+            return color.cyan(str(object))
 
 
 sb = Sorbet()
