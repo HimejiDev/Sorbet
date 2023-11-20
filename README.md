@@ -4,11 +4,16 @@ Sorbet is a Python package designed to enhance the printing experience in the co
 
 Note: Sorbet is currently under development and does not have any features implemented yet.
 
-## Features (Planned) 🚀
+## Features 🚀
 
 - **Improved Console Printing**: Enhance the readability and presentation of output in the console.
-- **Customization Options**: Enable users to customize output formats according to their preferences.
 - **Enhanced Display of Objects**: Display lists, tuples, and other objects in a more user-friendly format.
+
+## Planning 📆
+
+- [ ] **Customization Options**: Enable users to customize output formats according to their preferences.
+- [ ] **Print given variable name**: If a variable or function is given, the name of that object is also printed in the console.
+- [ ] **Print given variable type**: If a variable or function is given, the type of that object is also printed in the console.
 
 ## Installation ⚙️
 
