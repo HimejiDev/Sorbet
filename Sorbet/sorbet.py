@@ -1,5 +1,5 @@
-from .color import *
-from .format_strings import *
+from color import *
+from format_strings import *
 import inspect
 import executing
 
@@ -18,7 +18,7 @@ class Source(executing.Source):
         if "\n" in result:
             result = " " * node.first_token.start[1] + result
             result = result
-        result = result.strip()
+        result = result.strip().replace('"', "").replace("'", "")
         return result
 
 
@@ -54,10 +54,10 @@ class Sorbet:
         """
         if self.enabled:
             callFrame = inspect.currentframe().f_back
-            try:
-                out = self._out(callFrame, args)
-            except Exception as e:
-                out = f"{self.prefix} | {color.red('Error')}: {e}"
+            # try:
+            out = self._out(callFrame, args)
+            # except Exception as e:
+            #    out = f"{self.prefix} | {color.red('Error')}: {e}"
             print(out)
 
         if not args:  # sb()
@@ -97,9 +97,11 @@ class Sorbet:
             caller_info = self._get_caller_info(callFrame)
             return f"{self.prefix} | {color.cyan(caller_info[2])}:{color.cyan(str(caller_info[1]))} > {color.cyan(caller_info[0])}{'()' if caller_info[0] != '<module>' else ''} | {color.cyan(get_time())} ; {color.cyan(get_date())}"
         else:
-            return f"{self.prefix} | {self._format_args(args)}"
+            argPairs = list(zip(get_arg_strings(callFrame), args))
+            # print(argPairs)
+            return f"{self.prefix} | {self._format_args(argPairs)}"
 
-    def _format_args(self, args):
+    def _format_args(self, argPairs):
         """Formats the arguments.
 
         :param args: The arguments to format.
@@ -109,22 +111,62 @@ class Sorbet:
         :return: str
         """
         _args = []
-        for i in range(len(args)):
-            arg = args[i]
+        for i in range(len(argPairs)):
+            argPair = argPairs[i]
+            arg = argPair[1]
+            argName = argPair[0]
             if type(arg) in [str, int, float]:
-                _args.append(f"{self._color_type(arg)}")
+                _args.append(
+                    f"{color.cyan(f'<{type(arg).__name__}>')}{':' + color.cyan(argName) if str(arg) != argName else ''} - {self._color_type(arg)}"
+                )
             elif type(arg) in [list, tuple]:
                 _args.append(
-                    f"{'[' if type(arg) == list else '('}{self._format_args(arg)}{']' if type(arg) == list else ')'}"
+                    f"{color.cyan(f'<{type(arg).__name__}>')}{':' + color.cyan(argName) if str(arg) != argName else ''} - {'[' if type(arg) == list else '('}{self._format_lists(arg)}{']' if type(arg) == list else ')'}"
                 )
             elif type(arg) == dict:
-                _args.append(self._format_dict(arg))
+                _args.append(
+                    f"{color.cyan(f'<{type(arg).__name__}>')}{':' + color.cyan(argName) if str(arg) != argName else ''} - "
+                    + self._format_dict(arg)
+                )
             elif type(arg) in [bool]:
-                _args.append(color.green(str(arg)) if arg else color.red(str(arg)))
+                _args.append(
+                    f"{color.cyan(f'<{type(arg).__name__}>')}{':' + color.cyan(argName) if str(arg) != argName else ''} - "
+                    + (color.green(str(arg)) if arg else color.red(str(arg)))
+                )
             else:
-                _args.append(str(arg))
+                _args.append(
+                    f"{color.cyan(f'<{type(arg).__name__}>')}{':' + color.cyan(argName) if str(arg) != argName else ''} - "
+                    + str(arg)
+                )
 
         return ", ".join(_args)
+
+    def _format_lists(self, _list):
+        """Formats the list.
+
+        :param list: The list to format.
+
+        :type list: list
+
+        :return: str
+        """
+        items = []
+        for i in range(len(_list)):
+            item = _list[i]
+            if type(item) in [str, int, float]:
+                items.append(f"{self._color_type(item)}")
+            elif type(item) in [list, tuple]:
+                items.append(
+                    f"{'[' if type(item) == list else '('}{self._format_lists(item)}{']' if type(item) == list else ')'}"
+                )
+            elif type(item) == dict:
+                items.append(self._format_dict(item))
+            elif type(item) in [bool]:
+                items.append(color.green(str(item)) if item else color.red(str(item)))
+            else:
+                items.append(str(item))
+
+        return ", ".join(items)
 
     def _format_dict(self, dict):
         """Formats the dictionary.
