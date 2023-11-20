@@ -3,7 +3,7 @@ from sorbet import *
 # variables
 __version__ = "0.0.1"
 __author__ = "Himeji"
-__license__ = "MIT"
+__lsbense__ = "MIT"
 __title__ = "Sorbet"
 __description__ = "A logger made by Himeji."
 __url__ = "https://himeji.dev/sorbet"
