@@ -1,4 +1,5 @@
 from color import *
+from format_strings import *
 import inspect
 import executing
 
@@ -51,9 +52,13 @@ class Sorbet:
 
         :return: Any | None
         """
-        print(
-            f"{color.white(self.prefix)} {color.bright_black('|')} Hi! I'm Sorbet, a logger made by Himeji."
-        )
+        if self.enabled:
+            callFrame = inspect.currentframe().f_back
+            try:
+                out = self._out(callFrame, *args)
+            except executing.NoSourceAvailableError as err:
+                out = f"{self.prefix} | {color.red('Error')}: {err.infoMessage}"
+            print(out)
 
         if not args:  # sb()
             returns = None
@@ -72,10 +77,27 @@ class Sorbet:
 
         :return: Tuple[str, int, str]
         """
-        caller_function = caller_frame.function
-        caller_line = caller_frame.lineno
-        caller_file = caller_frame.filename
-        return caller_function, caller_line, caller_file
+        function_name = caller_frame.f_code.co_name
+        line_number = caller_frame.f_lineno
+        file_name = caller_frame.f_code.co_filename
+        return function_name, line_number, file_name.split("\\")[-1]
+
+    def _out(self, callFrame, *args):
+        """Formats the output.
+
+        :param callFrame: The call frame.
+        :param args: The arguments to pass to the class.
+
+        :type callFrame: inspect.FrameInfo
+        :type args: Tuple[Any]
+
+        :return: str
+        """
+        if not args:
+            caller_info = self._get_caller_info(callFrame)
+            print(
+                f"{self.prefix} | {caller_info[2]}:{caller_info[1]} > {caller_info[0]}() | {get_time()} ; {get_date()}"
+            )
 
 
 sb = Sorbet()
