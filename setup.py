@@ -14,7 +14,7 @@ setup(
     long_description_content_type="text/markdown",
     long_description=LONG_DESCRIPTION,
     packages=find_packages(),
-    install_requires=[],
+    install_requires=["executing", "asttokens"],
     keywords=["python", "print", "icecream", "log", "debug", "console", "sorbet"],
     classifiers=[
         "Development Status :: 1 - Planning",
