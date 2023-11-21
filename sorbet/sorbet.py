@@ -1,5 +1,5 @@
-from .color import *
-from .format_strings import *
+from color import *
+from format_strings import *
 import inspect
 import executing
 
@@ -18,7 +18,7 @@ class Source(executing.Source):
         if "\n" in result:
             result = " " * node.first_token.start[1] + result
             result = result
-        result = result.strip().replace('"', "").replace("'", "")
+        result = result.strip()
         return result
 
 
@@ -115,15 +115,17 @@ class Sorbet:
             arg = argPair[1]
             argName = argPair[0]
             if type(arg) in [str, int, float]:
+                check_arg = str(arg).replace("'", "").replace('"', '')
+                check_arg_name = argName.replace("'", "").replace('"', '')
                 _args.append(
-                    f"{color.cyan(f'<{type(arg).__name__}>')}{':' + color.cyan(argName) if str(arg) != argName else ''} - {self._color_type(arg)}"
+                    f"{color.cyan(f'<{type(arg).__name__}>')}{':' + color.cyan(argName) if check_arg != check_arg_name else ''} - {self._color_type(arg)}"
                 )
             elif type(arg) in [list, tuple]:
                 _args.append(
                     f"{color.cyan(f'<{type(arg).__name__}>')}{':' + color.cyan(argName) if str(arg) != argName else ''} - {'[' if type(arg) == list else '('}{self._format_lists(arg)}{']' if type(arg) == list else ')'}"
                 )
             elif type(arg) == dict:
-                check_arg = str(arg).replace("'", "")
+                check_arg = str(arg).replace("'", "").replace('"', '')
                 _args.append(
                     f"{color.cyan(f'<{type(arg).__name__}>')}{':' + color.cyan(argName) if check_arg != argName else ''} - "
                     + self._format_dict(arg)
