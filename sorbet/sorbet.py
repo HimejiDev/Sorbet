@@ -54,11 +54,11 @@ class Sorbet:
         """
         if self.enabled:
             callFrame = inspect.currentframe().f_back
-            # try:
-            out = self._out(callFrame, args)
-            # except Exception as e:
-            #    out = f"{self.prefix} | {color.red('Error')}: {e}"
-            print(out)
+            try:
+                out = self._out(callFrame, args)
+            except Exception as e:
+                out = f"{self.prefix} | {color.red('Error')}: {e}"
+            print(out) if self.enabled else None
 
         if not args:  # sb()
             returns = None
