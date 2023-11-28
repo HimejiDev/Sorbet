@@ -67,6 +67,21 @@ class Sorbet:
         else:  # sb(1, 2, 3).
             returns = args
         return returns
+    
+    def enable(self):
+        """Enables the logger.
+
+        :return: None
+        """
+        self.enabled = True
+
+
+    def disable(self):
+        """Disables the logger.
+
+        :return: None
+        """
+        self.enabled = False
 
     def _get_caller_info(self, caller_frame):
         """Gets the caller info.
