@@ -1,5 +1,7 @@
 # Sorbet 🍧
 
+⚠ Development has stopped/paused. ⚠
+
 Sorbet is a Python package designed to enhance the printing experience in the console. It aims to provide an intuitive and user-friendly way to display information during program execution.
 
 Note: Sorbet is currently under development and does not have any features implemented yet.
